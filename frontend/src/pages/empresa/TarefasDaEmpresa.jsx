@@ -56,81 +56,104 @@ export default function TarefasDaEmpresa() {
     }
 
     return (
-        <div className="p-6">
-            <button
-                onClick={() => navigate(-1)}
-                className="mb-4 px-4 py-2 bg-gray-300 rounded hover:bg-gray-400"
-            >
-                ← Voltar
-            </button>
+        <div className="flex flex-col min-h-screen bg-gray-100 text-gray-800">
+            {/* Header fixo */}
+            <header className="bg-[#0a0a23] text-white p-4 text-center font-semibold text-lg shadow-md fixed top-0 w-full z-50">
+                Feedback Premiado
+            </header>
 
-            <h1 className="text-2xl font-bold mb-4">
-                Tarefas de {empresa?.nome || 'Empresa'}
-            </h1>
+            {/* Conteúdo principal */}
+            <main className="flex-1 mt-20 mb-20 px-4 max-w-3xl mx-auto w-full">
+                <h1 className="text-2xl font-bold mb-4">
+                    Tarefas de {empresa?.nome || 'Empresa'}
+                </h1>
 
-            {carregando ? (
-                <p>Carregando...</p>
-            ) : tarefas.length === 0 ? (
-                <p>Esta empresa ainda não possui tarefas públicas.</p>
-            ) : (
-                <ul className="space-y-4">
-                    {tarefas.map((tarefa) => (
-                        <li key={tarefa._id} className="border p-4 rounded shadow">
-                            <h3 className="font-bold text-lg">{tarefa.titulo}</h3>
-                            <p>{tarefa.descricao}</p>
-                            <button
-                                onClick={() => {
-                                    setTarefaSelecionada(tarefa);
-                                    setMensagem('');
-                                }}
-                                className="mt-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-                            >
-                                Realizar Tarefa
-                            </button>
-                        </li>
-                    ))}
-                </ul>
-            )}
+                {carregando ? (
+                    <p>Carregando...</p>
+                ) : tarefas.length === 0 ? (
+                    <p>Esta empresa ainda não possui tarefas públicas.</p>
+                ) : (
+                    <ul className="space-y-4">
+                        {tarefas.map((tarefa) => (
+                            <li key={tarefa._id} className="border p-4 rounded shadow bg-white">
+                                <p className="font-bold text-lg">{tarefa.descricao}</p>
+                                <button
+                                    onClick={() => {
+                                        setTarefaSelecionada(tarefa);
+                                        setMensagem('');
+                                    }}
+                                    className="mt-2 px-4 py-2 bg-yellow-400 text-white rounded hover:bg-yellow-500"
+                                >
+                                    Realizar Tarefa
+                                </button>
+                            </li>
+                        ))}
+                    </ul>
+                )}
 
-            {tarefaSelecionada && (
-                <div className="mt-6 border p-4 rounded bg-gray-50">
-                    <h2 className="text-lg font-semibold mb-2">
-                        Link da tarefa: 
-                    </h2>
-                    <a
-                        href={tarefaSelecionada.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-blue-600 underline"
-                    >
-                        Acessar tarefa
-                    </a>
-
-                    <form onSubmit={enviarPrint} className="mt-4">
-                        <label className="block mb-2">
-                            Enviar print da tarefa:
-                            <input
-                                type="file"
-                                accept="image/*"
-                                onChange={(e) => setPrint(e.target.files[0])}
-                                className="block mt-1"
-                            />
-                        </label>
-                        <button
-                            type="submit"
-                            className="mt-2 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
+                {tarefaSelecionada && (
+                    <div className="mt-6 border p-4 rounded bg-white shadow">
+                        <h2 className="text-lg font-semibold mb-2">Link da tarefa:</h2>
+                        <a
+                            href={tarefaSelecionada.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-blue-600 underline"
                         >
-                            Enviar
-                        </button>
-                    </form>
-                </div>
-            )}
+                            Acessar tarefa
+                        </a>
 
-            {mensagem && (
-                <div className="mt-4 p-4 bg-green-100 border border-green-400 rounded">
-                    {mensagem}
-                </div>
-            )}
+                        <form onSubmit={enviarPrint} className="mt-4">
+                            <label className="block mb-2">
+                                Enviar print da tarefa:
+                                <input
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={(e) => setPrint(e.target.files[0])}
+                                    className="block mt-1"
+                                />
+                            </label>
+                            <button
+                                type="submit"
+                                className="mt-2 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
+                            >
+                                Enviar
+                            </button>
+                        </form>
+                    </div>
+                )}
+
+                {mensagem && (
+                    <div className="mt-4 p-4 bg-green-100 border border-green-400 rounded">
+                        {mensagem}
+                    </div>
+                )}
+            </main>
+
+            {/* Rodapé fixo */}
+            <footer className="bg-[#0a0a23] text-white fixed bottom-0 w-full flex justify-around py-3 border-t z-50">
+                <button
+                    onClick={() => navigate('/empresa/painel')}
+                    className="flex flex-col items-center text-white"
+                >
+                    <span className="text-xl">🏠</span>
+                    <span className="text-xs">Home</span>
+                </button>
+                <button
+                    onClick={() => navigate('/empresa/editar')}
+                    className="flex flex-col items-center text-white"
+                >
+                    <span className="text-xl">👤</span>
+                    <span className="text-xs">Editar</span>
+                </button>
+                <button
+                    onClick={() => navigate('/logout')}
+                    className="flex flex-col items-center text-white"
+                >
+                    <span className="text-xl">⬅️</span>
+                    <span className="text-xs">Sair</span>
+                </button>
+            </footer>
         </div>
     );
 }
