@@ -43,7 +43,6 @@ export default function EmpresaPainel() {
                 ...novaTarefa,
                 desconto: Number(novaTarefa.desconto),
             });
-
             setMensagem('Tarefa criada com sucesso!');
             setNovaTarefa({ descricao: '', link: '', desconto: '' });
             setTarefas([...tarefas, res.data]);
@@ -124,12 +123,6 @@ export default function EmpresaPainel() {
                     />
                 )}
                 <h1 className="text-3xl font-bold mt-4">{empresa.nome}</h1>
-            </div>
-
-            {/* Ações principais */}
-            <div className="flex justify-between items-center mb-4">
-                <h2 className="text-lg font-semibold">Painel da Empresa</h2>
-                {/* REMOVIDO: Botões Editar Perfil e Logout */}
             </div>
 
             {/* Dados da empresa */}
@@ -225,26 +218,11 @@ export default function EmpresaPainel() {
                                 ) : (
                                     <>
                                         <p><strong>Descrição:</strong> {tarefa.descricao}</p>
-                                        <p>
-                                            <strong>Link:</strong>{' '}
-                                            <a href={tarefa.link} className="text-[#0a0a23] font-semibold hover:underline" target="_blank" rel="noreferrer">
-                                                {tarefa.link}
-                                            </a>
-                                        </p>
+                                        <p><strong>Link:</strong> <a href={tarefa.link} target="_blank" rel="noreferrer" className="text-blue-600 hover:underline">{tarefa.link}</a></p>
                                         <p><strong>Desconto:</strong> {tarefa.desconto}%</p>
                                         <div className="flex gap-2 mt-2">
-                                            <button
-                                                onClick={() => iniciarEdicao(tarefa)}
-                                                className="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600 transition"
-                                            >
-                                                Editar
-                                            </button>
-                                            <button
-                                                onClick={() => excluirTarefa(tarefa._id)}
-                                                className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 transition"
-                                            >
-                                                Excluir
-                                            </button>
+                                            <button onClick={() => iniciarEdicao(tarefa)} className="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600 transition">Editar</button>
+                                            <button onClick={() => excluirTarefa(tarefa._id)} className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 transition">Excluir</button>
                                         </div>
                                     </>
                                 )}
@@ -262,19 +240,28 @@ export default function EmpresaPainel() {
                 ) : (
                     <ul className="space-y-3">
                         {prints.map(print => (
-                            <li key={print._id} className="bg-white p-4 rounded shadow flex items-center justify-between">
-                                <img
-                                    src={`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/uploads/prints/${print.imagem}`}
-                                    alt="Print"
-                                    className="w-20 h-20 object-cover rounded"
-                                />
-                                <p className="text-sm text-gray-600">{new Date(print.data_upload).toLocaleString()}</p>
-                                <button
-                                    onClick={() => excluirPrint(print._id)}
-                                    className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 transition"
-                                >
-                                    Excluir
-                                </button>
+                            <li key={print._id} className="bg-white p-4 rounded shadow">
+                                <div className="flex items-center gap-4">
+                                    <img
+                                        src={`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/uploads/prints/${print.imagem}`}
+                                        alt="Print"
+                                        className="w-20 h-20 object-cover rounded"
+                                    />
+                                    <div>
+                                        <p className="text-sm text-gray-700">
+                                            <strong>Cliente:</strong> {print.id_cliente?.nome || 'Desconhecido'} ({print.id_cliente?.email || 'sem e-mail'})
+                                        </p>
+                                        <p className="text-sm text-gray-500">
+                                            <strong>Enviado em:</strong> {new Date(print.data_upload).toLocaleString()}
+                                        </p>
+                                    </div>
+                                    <button
+                                        onClick={() => excluirPrint(print._id)}
+                                        className="ml-auto bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 transition"
+                                    >
+                                        Excluir
+                                    </button>
+                                </div>
                             </li>
                         ))}
                     </ul>

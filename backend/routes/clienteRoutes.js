@@ -1,15 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const cliente = require('../controllers/clienteController');
-const autenticarToken = require('../middleware/authMiddleware');
+const clienteController = require('../controllers/clienteController');
+const authMiddleware = require('../middleware/authMiddleware');
 
-// Cadastro
-router.post('/cadastro', cliente.cadastrar);
-
-// Obter dados do cliente logado
-router.get('/me', autenticarToken, cliente.me);
-
-// Editar dados do cliente logado
-router.put('/editar', autenticarToken, cliente.editar); // <-- Adicionada aqui
+router.post('/cadastro', clienteController.cadastrar);
+router.get('/me', authMiddleware, clienteController.me);
+router.put('/editar', authMiddleware, clienteController.editar);
 
 module.exports = router;

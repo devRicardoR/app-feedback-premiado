@@ -5,18 +5,17 @@ const authMiddleware = require('../middleware/authMiddleware');
 const upload = require('../middleware/upload');
 
 // ROTAS PÚBLICAS
-router.post('/cadastro', upload.single('fotoFachada'), empresaController.cadastro); // Adiciona upload
-router.post('/cadastro', empresaController.cadastro); // Cadastro da empresa
-router.get('/', empresaController.listarEmpresas);    // Lista todas as empresas
-router.get('/ranking', empresaController.rankingEmpresas); // Ranking de empresas
+router.post('/cadastro', upload.single('fachada'), empresaController.cadastro); // Corrigido: 'fachada'
 
+router.get('/', empresaController.listarEmpresas);
+router.get('/ranking', empresaController.rankingEmpresas);
 
-// Coloque esta rota ANTES da rota com :id para evitar conflito
-router.use(authMiddleware); // Tudo abaixo daqui exige login
-router.get('/me', empresaController.me); // Dados da empresa logada
+// ROTAS PROTEGIDAS
+router.use(authMiddleware);
 
-router.put('/me', upload.single('fotoFachada'), empresaController.atualizar);
+router.get('/me', empresaController.me);
+router.put('/me', upload.single('fachada'), empresaController.atualizar); // Corrigido: 'fachada'
 
-router.get('/:id', empresaController.detalharEmpresa); // Detalhar uma empresa por ID
+router.get('/:id', empresaController.detalharEmpresa);
 
 module.exports = router;
