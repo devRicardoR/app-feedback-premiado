@@ -1,5 +1,6 @@
 const Print = require('../models/Print');
 const Tarefa = require('../models/Tarefa');
+const Empresa = require('../models/Empresa'); // <-- IMPORT NECESSÁRIO
 
 /**
  * Envia o print do cliente com base na tarefa e empresa
@@ -12,22 +13,23 @@ exports.enviarPrint = async (req, res) => {
             return res.status(400).json({ message: 'Imagem do comprovante é obrigatória' });
         }
 
-        // Buscar a tarefa para verificar se existe e pegar o desconto
         const tarefa = await Tarefa.findById(id_tarefa);
         if (!tarefa) {
             return res.status(404).json({ message: 'Tarefa não encontrada' });
         }
 
-        // Criar novo print
         const novoPrint = new Print({
             id_empresa,
             id_tarefa,
-            id_cliente: req.user.id, // Pega o ID do cliente autenticado
+            id_cliente: req.user.id,
             imagem: req.file.filename,
             data_upload: new Date(),
         });
 
         await novoPrint.save();
+
+        // ✅ INCREMENTAR printsCount da empresa após o upload
+        await Empresa.findByIdAndUpdate(id_empresa, { $inc: { printsCount: 1 } });
 
         res.json({
             message: 'Print enviado com sucesso',
@@ -45,8 +47,8 @@ exports.enviarPrint = async (req, res) => {
 exports.listarPrintsPorEmpresa = async (req, res) => {
     try {
         const prints = await Print.find({ id_empresa: req.params.id })
-            .populate('id_cliente', 'nome email') // Popular nome e email do cliente
-            .sort({ data_upload: -1 }); // Ordena por data de envio mais recente
+            .populate('id_cliente', 'nome email')
+            .sort({ data_upload: -1 });
 
         res.json(prints);
     } catch (err) {
@@ -65,6 +67,9 @@ exports.excluirPrint = async (req, res) => {
         if (!print) {
             return res.status(404).json({ message: 'Print não encontrado' });
         }
+
+        // ✅ DECREMENTAR printsCount da empresa ao excluir o print
+        await Empresa.findByIdAndUpdate(print.id_empresa, { $inc: { printsCount: -1 } });
 
         await print.deleteOne();
 

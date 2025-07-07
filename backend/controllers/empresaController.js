@@ -3,16 +3,15 @@ const Print = require('../models/Print');
 const bcrypt = require('bcryptjs');
 const axios = require('axios');
 
-// Delay entre requisições (1 segundo)
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 async function obterCoordenadas(endereco) {
   try {
-    await delay(1000); // Delay antes da requisição
+    await delay(1000);
     const enderecoFormatado = `${endereco.rua}, ${endereco.numero}, ${endereco.cidade}, ${endereco.estado}`;
     const response = await axios.get(
       `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(enderecoFormatado)}`,
-      { headers: { 'User-Agent': 'YourAppName' } } // Header recomendado
+      { headers: { 'User-Agent': 'YourAppName' } }
     );
     return response.data[0] ? [parseFloat(response.data[0].lon), parseFloat(response.data[0].lat)] : null;
   } catch (error) {
@@ -122,7 +121,7 @@ exports.listarEmpresas = async (req, res) => {
     res.json(empresas.map(empresa => ({
       _id: empresa._id,
       nome: empresa.nome,
-      cidade: empresa.endereco?.cidade || '',
+      endereco: empresa.endereco,
       printsConcluidos: empresa.printsCount || 0
     })));
   } catch (err) {
@@ -139,11 +138,11 @@ exports.rankingEmpresas = async (req, res) => {
       .lean();
 
     res.json(ranking.map((empresa, index) => ({
-      _id: empresa._id,
+      empresaId: empresa._id,
       posicao: index + 1,
       nome: empresa.nome,
       cidade: empresa.endereco?.cidade || '',
-      printsConcluidos: empresa.printsCount || 0
+      totalPrints: empresa.printsCount || 0 // <- este nome precisa bater com o frontend
     })));
   } catch (err) {
     console.error(err);

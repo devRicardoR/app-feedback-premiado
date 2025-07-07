@@ -45,7 +45,7 @@ export default function LojaDetalhes() {
         setErro("");
 
         const formData = new FormData();
-        formData.append("imagem", file);          // CORREÇÃO AQUI: o campo deve ser 'imagem'
+        formData.append("imagem", file);
         formData.append("id_tarefa", tarefaId);
         formData.append("id_empresa", id);
 
@@ -72,12 +72,36 @@ export default function LojaDetalhes() {
 
     return (
         <div className="max-w-4xl mx-auto p-6 rounded shadow bg-white">
-            <p className="text-gray-700 mb-2">
-                <strong>Endereço:</strong> {loja.endereco?.rua}, {loja.endereco?.numero}, {loja.endereco?.cidade}
-            </p>
-            <p className="text-gray-700 mb-6">
-                <strong>E-mail:</strong> {loja.email}
-            </p>
+            {/* Exibir dados principais da loja */}
+            <div className="mb-6 flex items-center space-x-4">
+                {loja.fachada ? (
+                    <img
+                        src={`http://localhost:5000/uploads/prints/${loja.fachada}`}
+                        alt={`Logo da loja ${loja.nome}`}
+                        className="w-24 h-24 object-contain rounded"
+                    />
+                ) : (
+                    <div className="w-24 h-24 bg-gray-200 flex items-center justify-center rounded">
+                        <span className="text-gray-500">Sem logo</span>
+                    </div>
+                )}
+                <div>
+                    <h1 className="text-3xl font-bold text-gray-900">{loja.nome}</h1>
+                    <p className="text-gray-700"><strong>CNPJ/CPF:</strong> {loja.cnpj_cpf}</p>
+                    <p className="text-gray-700"><strong>E-mail:</strong> {loja.email}</p>
+                </div>
+            </div>
+
+            {/* Endereço completo */}
+            <div className="mb-6">
+                <h2 className="text-xl font-semibold mb-2">Endereço</h2>
+                <p className="text-gray-700">
+                    {loja.endereco?.rua}, {loja.endereco?.numero}
+                    {loja.endereco?.complemento ? `, ${loja.endereco.complemento}` : ''} <br />
+                    {loja.endereco?.bairro} - {loja.endereco?.cidade} / {loja.endereco?.estado} <br />
+                    CEP: {loja.endereco?.cep || "Não informado"}
+                </p>
+            </div>
 
             <h2 className="mb-4 text-2xl font-semibold text-gray-800">Tarefas</h2>
 

@@ -11,7 +11,7 @@ import markerIcon from 'leaflet/dist/images/marker-icon.png';
 import markerShadow from 'leaflet/dist/images/marker-shadow.png';
 
 delete L.Icon.Default.prototype._getIconUrl;
-    L.Icon.Default.mergeOptions({
+L.Icon.Default.mergeOptions({
     iconRetinaUrl: markerIcon2x,
     iconUrl: markerIcon,
     shadowUrl: markerShadow,
@@ -79,7 +79,7 @@ delete L.Icon.Default.prototype._getIconUrl;
                 className="border px-3 py-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-600"
             />
             </div>
-            
+
             {lojasFiltradas.length > 0 && (
             <div className="mb-4">
                 <h2 className="text-lg font-semibold mb-2">Lojas encontradas:</h2>
@@ -127,8 +127,8 @@ delete L.Icon.Default.prototype._getIconUrl;
                     {loja.endereco?.rua}, {loja.endereco?.numero}<br />
                     {loja.endereco?.cidade}
                     <br />
-                    <Link 
-                        to={`/cliente/loja/${loja._id}`} 
+                    <Link
+                        to={`/cliente/loja/${loja._id}`}
                         className="text-blue-600 underline hover:text-blue-800"
                     >
                         Ver detalhes
@@ -144,20 +144,18 @@ delete L.Icon.Default.prototype._getIconUrl;
             <h2 className="text-2xl font-semibold mb-4 text-gray-800">Ranking de empresas mais avaliadas</h2>
             <ul className="space-y-3">
             {ranking.map((empresa, index) => (
-                <li key={empresa._id} className="border p-4 rounded-lg bg-gray-50 hover:bg-gray-100 transition">
+                <li key={empresa.empresaId} className="border p-4 rounded-lg bg-gray-50 hover:bg-gray-100 transition">
                 <div className="flex justify-between items-start">
                     <div>
                     <h3 className="font-bold text-gray-800">
                         {index + 1}. {empresa.nome}
                     </h3>
                     <p className="text-gray-600">
-                        {empresa.endereco?.rua && `${empresa.endereco.rua}, `}
-                        {empresa.endereco?.numero && `${empresa.endereco.numero} - `}
-                        {empresa.endereco?.cidade || 'Cidade não informada'}
+                        {empresa.cidade || 'Cidade não informada'}
                     </p>
                     </div>
                     <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-sm">
-                    {empresa.printsCount} prints
+                    {empresa.totalPrints} prints
                     </span>
                 </div>
                 </li>
