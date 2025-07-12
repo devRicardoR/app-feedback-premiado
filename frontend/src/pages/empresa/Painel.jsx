@@ -232,6 +232,20 @@ export default function EmpresaPainel() {
                 )}
             </section>
 
+            {/* Programa de Fidelidade - NOVA SEÇÃO */}
+            <section className="mb-6 bg-white rounded p-4 shadow">
+                <h3 className="font-semibold text-lg mb-2">🎯 Programa de Fidelidade</h3>
+                <p className="text-gray-600 mb-3">
+                    Engaje seus clientes oferecendo recompensas ao completar ações.
+                </p>
+                <a
+                    href="/empresa/fidelidade"
+                    className="inline-block bg-[#0a0a23] text-white px-4 py-2 rounded hover:bg-[#14142e] transition"
+                >
+                    Criar ou Gerenciar Programa
+                </a>
+            </section>
+
             {/* Lista de prints */}
             <section className="mb-6">
                 <h3 className="font-semibold text-lg mb-2">Prints Recebidos</h3>

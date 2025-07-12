@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import api, { setToken } from "../../services/api";
 
 export default function LojaDetalhes() {
     const { id } = useParams();
+    const navigate = useNavigate();
     const [loja, setLoja] = useState(null);
     const [tarefas, setTarefas] = useState([]);
     const [printsEnviados, setPrintsEnviados] = useState({});
@@ -68,11 +69,15 @@ export default function LojaDetalhes() {
         }));
     };
 
+        function irParaProgramaFidelidade() {
+        navigate(`/cliente/fidelidade/${id}`);
+    }
+
     if (!loja) return <p className="p-6">Carregando...</p>;
 
     return (
         <div className="max-w-4xl mx-auto p-6 rounded shadow bg-white">
-            {/* Exibir dados principais da loja */}
+            {/* Dados da loja */}
             <div className="mb-6 flex items-center space-x-4">
                 {loja.fachada ? (
                     <img
@@ -92,7 +97,7 @@ export default function LojaDetalhes() {
                 </div>
             </div>
 
-            {/* Endereço completo */}
+            {/* Endereço */}
             <div className="mb-6">
                 <h2 className="text-xl font-semibold mb-2">Endereço</h2>
                 <p className="text-gray-700">
@@ -103,6 +108,21 @@ export default function LojaDetalhes() {
                 </p>
             </div>
 
+            {/* 🔥 Chamada para o Programa de Fidelidade */}
+            <div className="mb-6 bg-yellow-100 border-l-4 border-yellow-500 p-4 rounded shadow-md">
+                <h2 className="text-xl font-bold text-yellow-800 mb-2">🎁 Programa de Fidelidade</h2>
+                <p className="text-yellow-700 mb-3">
+                    Participe do programa de fidelidade desta loja e ganhe descontos, brindes e vantagens exclusivas!
+                </p>
+                <button
+                    onClick={irParaProgramaFidelidade}
+                    className="bg-yellow-500 hover:bg-yellow-600 text-white px-6 py-2 rounded font-semibold transition"
+                >
+                    Quero Participar 🎉
+                </button>
+            </div>
+
+            {/* Tarefas */}
             <h2 className="mb-4 text-2xl font-semibold text-gray-800">Tarefas</h2>
 
             {erro && <p className="mb-4 text-red-600">{erro}</p>}
@@ -121,18 +141,14 @@ export default function LojaDetalhes() {
                             </button>
                         ) : (
                             <>
-                                <p className="text-gray-700">
-                                    <strong>Descrição:</strong> {tarefa.descricao}
-                                </p>
+                                <p className="text-gray-700"><strong>Descrição:</strong> {tarefa.descricao}</p>
                                 <p className="text-gray-700">
                                     <strong>Link da tarefa:</strong>{" "}
                                     <a href={tarefa.link} target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">
                                         {tarefa.link}
                                     </a>
                                 </p>
-                                <p className="text-gray-700">
-                                    <strong>Desconto:</strong> {tarefa.desconto}%
-                                </p>
+                                <p className="text-gray-700"><strong>Desconto:</strong> {tarefa.desconto}%</p>
                                 {printsEnviados[tarefa._id] ? (
                                     <p className="text-green-700 font-semibold mt-2">Comprovante enviado!</p>
                                 ) : (
