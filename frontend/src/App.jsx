@@ -73,7 +73,7 @@ function LayoutWrapperEmpresa({ children }) {
         if (tipo === 'empresa') navigate('/empresa/painel');
     }
 
-    const headerFooterClass = 'bg-[#0a0a23] text-white';
+    const headerFooterClass = 'bg-black bg-opacity-70 backdrop-blur-md text-white';
 
     return (
         <div className="flex flex-col h-screen bg-gray-100">
@@ -127,7 +127,7 @@ function LayoutWrapperCliente({ children }) {
         if (tipo === 'cliente') navigate('/cliente/painel');
     }
 
-    const headerFooterClass = 'bg-[#0a0a23] text-white';
+    const headerFooterClass = 'bg-black bg-opacity-70 backdrop-blur-md text-white';
 
     return (
         <div className="flex flex-col h-screen bg-gray-100">

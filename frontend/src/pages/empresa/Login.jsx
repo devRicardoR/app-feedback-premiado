@@ -30,27 +30,31 @@ export default function EmpresaLogin() {
     }
 
     return (
-        <div className="min-h-screen bg-gray-100 flex flex-col">
+        <div className="min-h-screen font-poppins bg-gradient-to-br from-brandRed via-brandOrange to-brandYellow flex flex-col">
             {/* Topo padrão */}
-            <header className="bg-[#0a0a23] p-4 text-white text-center font-semibold text-lg">
+            <header className="bg-[#504b4d] p-4 text-center font-extrabold text-lg text-white shadow-lg">
                 Feedback Premiado
             </header>
 
             {/* Formulário de login */}
-            <main className="flex-1 flex items-center justify-center p-4">
-                <div className="max-w-md w-full bg-white rounded shadow p-6">
-                    <h1 className="text-3xl font-bold mb-6 text-center text-gray-800">Login Empresa</h1>
+            <main className="flex-1 flex items-center justify-center p-6">
+                <div className="max-w-md w-full bg-white/20 backdrop-blur-md rounded-3xl border border-white/30 shadow-lg p-8">
+                    <h1 className="text-3xl font-extrabold mb-8 text-white text-center uppercase tracking-wide drop-shadow-lg">
+                        Login Empresa
+                    </h1>
 
-                    {erro && <p className="mb-4 text-red-600 text-sm text-center">{erro}</p>}
+                    {erro && (
+                        <p className="mb-6 text-red-500 font-semibold text-center text-lg">{erro}</p>
+                    )}
 
-                    <form onSubmit={handleSubmit} className="space-y-4">
+                    <form onSubmit={handleSubmit} className="space-y-6">
                         <input
                             type="email"
                             placeholder="E-mail"
                             value={email}
                             onChange={e => setEmail(e.target.value)}
                             required
-                            className="w-full px-3 py-2 border rounded text-gray-800 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                            className="w-full px-5 py-3 rounded-2xl bg-white/30 placeholder-white/70 text-red-900 font-semibold outline-none backdrop-blur-md focus:ring-4 focus:ring-white transition"
                         />
                         <input
                             type="password"
@@ -58,27 +62,27 @@ export default function EmpresaLogin() {
                             value={senha}
                             onChange={e => setSenha(e.target.value)}
                             required
-                            className="w-full px-3 py-2 border rounded text-gray-800 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                            className="w-full px-5 py-3 rounded-2xl bg-white/30 placeholder-white/70 text-red-900 font-semibold outline-none backdrop-blur-md focus:ring-4 focus:ring-white transition"
                         />
                         <button
                             type="submit"
-                            className="w-full bg-yellow-400 text-white py-2 rounded hover:bg-yellow-500 transition"
+                            className="w-full bg-brandGreen hover:bg-green-600 text-white py-3 rounded-2xl font-extrabold uppercase tracking-wide shadow-lg transition focus:ring-4 focus:ring-[#5B1B29]"
                         >
                             Entrar
                         </button>
                     </form>
 
-                    <p className="mt-4 text-center text-sm text-gray-500">
+                    <p className="mt-6 text-center text-white/80 text-lg">
                         Não tem conta?{' '}
-                        <a href="/empresa/cadastro" className="text-yellow-500 underline hover:text-yellow-600">
+                        <a href="/empresa/cadastro" className="text-red-900">
                             Cadastre-se
                         </a>
                     </p>
 
-                    <div className="mt-6 text-center">
+                    <div className="mt-8 text-center">
                         <button
                             onClick={voltarPaginaInicial}
-                            className="bg-gray-600 text-white py-2 px-4 rounded hover:bg-gray-700 transition text-sm"
+                            className="bg-white/20 hover:bg-white/30 text-white py-3 px-6 rounded-2xl font-semibold transition focus:ring-4 focus:ring-white"
                         >
                             Voltar para a página inicial
                         </button>

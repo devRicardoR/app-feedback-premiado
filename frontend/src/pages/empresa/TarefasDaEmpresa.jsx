@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import api from '../../services/api';
 
 export default function TarefasDaEmpresa() {
-    const { id } = useParams(); // ID da empresa
+    const { id } = useParams();
     const [empresa, setEmpresa] = useState(null);
     const [tarefas, setTarefas] = useState([]);
     const [carregando, setCarregando] = useState(true);
@@ -56,33 +56,31 @@ export default function TarefasDaEmpresa() {
     }
 
     return (
-        <div className="flex flex-col min-h-screen bg-gray-100 text-gray-800">
-            {/* Header fixo */}
-            <header className="bg-[#0a0a23] text-white p-4 text-center font-semibold text-lg shadow-md fixed top-0 w-full z-50">
+        <div className="flex flex-col min-h-screen font-poppins bg-gradient-to-br from-brandRed via-brandOrange to-brandYellow text-white">
+            <header className="bg-white/20 backdrop-blur-md p-4 text-center font-semibold text-lg shadow-md fixed top-0 w-full z-50">
                 Feedback Premiado
             </header>
 
-            {/* Conteúdo principal */}
-            <main className="flex-1 mt-20 mb-20 px-4 max-w-3xl mx-auto w-full">
-                <h1 className="text-2xl font-bold mb-4">
+            <main className="flex-1 mt-20 mb-24 px-4 max-w-3xl mx-auto w-full">
+                <h1 className="text-3xl font-extrabold mb-6 drop-shadow">
                     Tarefas de {empresa?.nome || 'Empresa'}
                 </h1>
 
                 {carregando ? (
-                    <p>Carregando...</p>
+                    <p className="text-white/90">Carregando...</p>
                 ) : tarefas.length === 0 ? (
-                    <p>Esta empresa ainda não possui tarefas públicas.</p>
+                    <p className="text-white/90">Esta empresa ainda não possui tarefas públicas.</p>
                 ) : (
                     <ul className="space-y-4">
                         {tarefas.map((tarefa) => (
-                            <li key={tarefa._id} className="border p-4 rounded shadow bg-white">
-                                <p className="font-bold text-lg">{tarefa.descricao}</p>
+                            <li key={tarefa._id} className="bg-white/20 backdrop-blur-md p-5 rounded-3xl shadow-lg border border-white/30">
+                                <p className="font-bold text-xl">{tarefa.descricao}</p>
                                 <button
                                     onClick={() => {
                                         setTarefaSelecionada(tarefa);
                                         setMensagem('');
                                     }}
-                                    className="mt-2 px-4 py-2 bg-yellow-400 text-white rounded hover:bg-yellow-500"
+                                    className="mt-3 px-5 py-2 bg-brandYellow text-white font-semibold rounded-full shadow hover:scale-105 transition-transform"
                                 >
                                     Realizar Tarefa
                                 </button>
@@ -92,30 +90,34 @@ export default function TarefasDaEmpresa() {
                 )}
 
                 {tarefaSelecionada && (
-                    <div className="mt-6 border p-4 rounded bg-white shadow">
-                        <h2 className="text-lg font-semibold mb-2">Link da tarefa:</h2>
+                    <div className="mt-6 bg-white/20 backdrop-blur-md p-5 rounded-3xl shadow-lg border border-white/30">
+                        <h2 className="text-xl font-bold mb-2">Link da tarefa:</h2>
                         <a
                             href={tarefaSelecionada.link}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-blue-600 underline"
+                            className="text-white underline hover:text-yellow-300"
                         >
                             Acessar tarefa
                         </a>
 
                         <form onSubmit={enviarPrint} className="mt-4">
-                            <label className="block mb-2">
+                            <label className="block mb-3 font-semibold">
                                 Enviar print da tarefa:
                                 <input
                                     type="file"
                                     accept="image/*"
                                     onChange={(e) => setPrint(e.target.files[0])}
-                                    className="block mt-1"
+                                    className="block mt-2 text-white file:mr-4 file:py-2 file:px-4
+                                        file:rounded-full file:border-0
+                                        file:text-sm file:font-semibold
+                                        file:bg-brandGreen file:text-white
+                                        hover:file:bg-green-600 transition-all animate-pulse"
                                 />
                             </label>
                             <button
                                 type="submit"
-                                className="mt-2 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
+                                className="mt-2 px-5 py-2 bg-brandRed text-white font-bold rounded-full shadow hover:scale-105 transition"
                             >
                                 Enviar
                             </button>
@@ -124,31 +126,30 @@ export default function TarefasDaEmpresa() {
                 )}
 
                 {mensagem && (
-                    <div className="mt-4 p-4 bg-green-100 border border-green-400 rounded">
+                    <div className="mt-4 p-4 bg-white/20 border border-white/30 text-white font-semibold rounded-3xl backdrop-blur-md shadow">
                         {mensagem}
                     </div>
                 )}
             </main>
 
-            {/* Rodapé fixo */}
-            <footer className="bg-[#0a0a23] text-white fixed bottom-0 w-full flex justify-around py-3 border-t z-50">
+            <footer className="bg-white/20 backdrop-blur-md fixed bottom-0 w-full flex justify-around py-3 border-t border-white/30 z-50 text-white">
                 <button
                     onClick={() => navigate('/empresa/painel')}
-                    className="flex flex-col items-center text-white"
+                    className="flex flex-col items-center"
                 >
                     <span className="text-xl">🏠</span>
                     <span className="text-xs">Home</span>
                 </button>
                 <button
                     onClick={() => navigate('/empresa/editar')}
-                    className="flex flex-col items-center text-white"
+                    className="flex flex-col items-center"
                 >
                     <span className="text-xl">👤</span>
                     <span className="text-xs">Editar</span>
                 </button>
                 <button
                     onClick={() => navigate('/logout')}
-                    className="flex flex-col items-center text-white"
+                    className="flex flex-col items-center"
                 >
                     <span className="text-xl">⬅️</span>
                     <span className="text-xs">Sair</span>

@@ -1,7 +1,16 @@
 import React, { useEffect, useState } from "react";
 import api, { setToken } from "../../services/api";
+import {
+    BarChart,
+    Bar,
+    XAxis,
+    YAxis,
+    Tooltip,
+    ResponsiveContainer,
+    CartesianGrid,
+    } from "recharts";
 
-export default function EmpresaRanking() {
+    export default function EmpresaRanking() {
     const [ranking, setRanking] = useState([]);
     const [erro, setErro] = useState("");
 
@@ -25,57 +34,66 @@ export default function EmpresaRanking() {
         }
     }
 
+    const maiorPontuacao = Math.max(...ranking.map((e) => e.totalPrints), 1);
+
     return (
-        <div className="max-w-4xl mx-auto bg-white rounded shadow p-6">
-        <h1 className="text-3xl font-bold mb-6 text-gray-800 text-center">
+        <main className="min-h-screen font-poppins bg-gradient-to-br from-brandRed via-brandOrange to-brandYellow text-white flex flex-col items-center justify-center p-6">
+        <div className="max-w-6xl w-full bg-white/20 backdrop-blur-md rounded-3xl p-8 border border-white/30 shadow-lg">
+            <h1 className="text-4xl font-extrabold mb-8 drop-shadow-md text-white text-center">
             Ranking de Empresas Mais Avaliadas
-        </h1>
+            </h1>
 
-        {erro && <p className="text-red-600 mb-4 text-center">{erro}</p>}
+            {erro && (
+            <p className="mb-6 text-red-500 text-center font-semibold">{erro}</p>
+            )}
 
-        {ranking.length === 0 ? (
-            <p className="text-center text-gray-600">
-            Nenhuma avaliação encontrada.
+            {ranking.length === 0 ? (
+            <p className="text-center text-white/90 text-lg">
+                Nenhuma avaliação encontrada.
             </p>
-        ) : (
-            <div className="overflow-x-auto">
-            <table className="w-full table-auto border border-gray-300 rounded">
-                <thead className="bg-[#0a0a23] text-white">
-                <tr>
-                    <th className="px-4 py-2 border border-gray-300">Posição</th>
-                    <th className="px-4 py-2 border border-gray-300">
-                    Nome da Empresa
-                    </th>
-                    <th className="px-4 py-2 border border-gray-300">Cidade</th>
-                    <th className="px-4 py-2 border border-gray-300">
-                    Total de Prints
-                    </th>
-                </tr>
-                </thead>
-                <tbody>
-                {ranking.map((empresa, idx) => (
-                    <tr
-                    key={empresa.empresaId}
-                    className="text-center hover:bg-gray-100"
-                    >
-                    <td className="px-4 py-2 border border-gray-300">
-                        {idx + 1}
-                    </td>
-                    <td className="px-4 py-2 border border-gray-300">
-                        {empresa.nome}
-                    </td>
-                    <td className="px-4 py-2 border border-gray-300">
-                        {empresa.cidade}
-                    </td>
-                    <td className="px-4 py-2 border border-gray-300">
-                        {empresa.totalPrints}
-                    </td>
-                    </tr>
-                ))}
-                </tbody>
-            </table>
+            ) : (
+            <div className="w-full h-[500px]">
+                <ResponsiveContainer width="100%" height="100%">
+                <BarChart
+                    data={ranking}
+                    margin={{ top: 20, right: 30, left: 30, bottom: 80 }}
+                    barCategoryGap="20%"
+                >
+                    <CartesianGrid
+                    strokeDasharray="3 3"
+                    stroke="rgba(255 255 255 / 0.2)"
+                    />
+                    <XAxis
+                    dataKey="nome"
+                    interval={0}
+                    angle={-25}
+                    textAnchor="end"
+                    height={100}
+                    tick={{ fill: "white", fontWeight: "600", fontSize: 12 }}
+                    />
+                    <YAxis
+                    tick={{ fill: "white", fontWeight: "600" }}
+                    domain={[0, Math.ceil(maiorPontuacao * 1.1)]}
+                    />
+                    <Tooltip
+                    contentStyle={{
+                        backgroundColor: "#1f2937",
+                        borderRadius: "8px",
+                        border: "none",
+                    }}
+                    itemStyle={{ color: "#F87171", fontWeight: "600" }}
+                    />
+                    <Bar
+                    dataKey="totalPrints"
+                    fill="#7B1A1A"
+                    radius={[10, 10, 0, 0]}
+                    maxBarSize={60}
+                    />
+                </BarChart>
+                </ResponsiveContainer>
             </div>
-        )}
+            )}
         </div>
+        </main>
     );
 }
