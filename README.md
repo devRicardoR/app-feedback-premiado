@@ -49,17 +49,3 @@ Este projeto está em desenvolvimento contínuo e sugestões são bem-vindas.
 ---
 
 Desenvolvido por Ricardo Cesar Ramos.
-
-## Aviso de Direitos Autorais e Uso
-
-Este projeto é fruto de uma ideia original e desenvolvimento próprio. Todo o código-fonte e conteúdo são protegidos por direitos autorais.
-
-É proibida a cópia, reprodução, distribuição ou uso deste projeto para fins comerciais ou pessoais sem autorização prévia do autor.
-
-Caso deseje utilizar parte do código ou colaborar, entre em contato para acertarmos as condições.
-
----
-
-**Licença**
-
-Este repositório está sob a licença [MIT](./LICENSE) (ou outra que você preferir). Consulte o arquivo LICENSE para mais detalhes sobre os termos de uso e distribuição.
